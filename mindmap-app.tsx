@@ -72,22 +72,14 @@ export default function MindmapApp() {
       return
     }
 
-    const dataStr = JSON.stringify(
-      {
-        subject: subjectName,
-        content: mindmapContent,
-        timestamp: new Date().toISOString(),
-      },
-      null,
-      2,
-    )
+    
 
-    const dataBlob = new Blob([dataStr], { type: "application/json" })
+    const dataBlob = new Blob([mindmapContent], { type: "text/plain" })
     const url = URL.createObjectURL(dataBlob)
 
     const link = document.createElement("a")
     link.href = url
-    link.download = `${subjectName || "mindmap"}.json`
+    link.download = `${subjectName || "mindmap"}.txt`
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -104,19 +96,16 @@ export default function MindmapApp() {
 
     const reader = new FileReader()
     reader.onload = (e) => {
-      try {
-        const content = e.target?.result as string
-        const data = JSON.parse(content)
-
-        if (data.subject) setSubjectName(data.subject)
-        if (data.content) setMindmapContent(data.content)
-
-        alert("File imported successfully!")
-      } catch (error) {
-        alert("Error reading file. Please make sure it's a valid JSON file.")
-      }
+      const content = e.target?.result as string
+      setMindmapContent(content)
+      setSubjectName(file.name.replace(/\.[^/.]+$/, "")) // Set subject name without extension
+    }
+    reader.onerror = (e) => {
+      console.error("Error reading file:", e)
+      alert("Failed to read file. Please try again.")
     }
     reader.readAsText(file)
+    event.target.value = "" // Reset file input to allow re-uploading the same file
   }
 
   return (
@@ -226,7 +215,7 @@ export default function MindmapApp() {
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept=".json,.txt"
+                  accept=".txt"
                   onChange={handleFileChange}
                   className="hidden"
                 />
