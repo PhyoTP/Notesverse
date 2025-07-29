@@ -30,7 +30,6 @@ export default function MindmapApp() {
     }
   }, [isLoading, iframeHTML])
 
-
   const handleSubmit = async () => {
     if (!subjectName.trim() || !mindmapContent.trim()) {
       alert("Please fill in both subject name and content")
@@ -65,14 +64,11 @@ export default function MindmapApp() {
     }
   }
 
-
   const handleExport = () => {
     if (!mindmapContent.trim()) {
       alert("No content to export")
       return
     }
-
-    
 
     const dataBlob = new Blob([mindmapContent], { type: "text/plain" })
     const url = URL.createObjectURL(dataBlob)
@@ -150,6 +146,34 @@ export default function MindmapApp() {
 
           {/* Controls Panel */}
           <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Guide</CardTitle>
+                <CardDescription>How to make a mindmap</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="font-semibold mb-2">There are 3 formats:</h4>
+                  </div>
+
+                  <div>
+                    <p className="font-medium text-blue-600">1. noun : verb {">"} noun</p>
+                    <p className="text-muted-foreground ml-4">eg. Fats : made of {">"} Glycerol, Fatty Acids</p>
+                  </div>
+
+                  <div>
+                    <p className="font-medium text-green-600">2. noun :  adjective</p>
+                    <p className="text-muted-foreground ml-4">eg. Water : essential</p>
+                  </div>
+
+                  <div>
+                    <p className="font-medium text-purple-600">3. category {">"} noun</p>
+                    <p className="text-muted-foreground ml-4">eg. Nucleic Acid {">"} DNA, RNA</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             {/* Subject Input */}
             <Card>
               <CardHeader>
@@ -212,13 +236,7 @@ export default function MindmapApp() {
                   Export to File
                 </Button>
 
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".txt"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
+                <input ref={fileInputRef} type="file" accept=".txt" onChange={handleFileChange} className="hidden" />
               </CardContent>
             </Card>
           </div>

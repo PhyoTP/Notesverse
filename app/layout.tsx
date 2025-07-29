@@ -4,8 +4,8 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Notesverse',
-  description: 'A mindmap website builder',
+  title: 'v0 App',
+  description: 'Created with v0',
   generator: 'v0.dev',
 }
 
